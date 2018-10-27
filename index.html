@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Thumbs</title>
-  <script src="thumbs.js"></script>
+  <script src="elm.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -19,11 +19,12 @@
   <p id="from-elm"></p>
 
   <script>
-    var node = document.getElementById('elm-app');
-    var app = Elm.Thumbs.embed(node);
+    var app = Elm.Thumbs.init({
+        node: document.getElementById('elm-app')
+      });
 
     app.ports.thumbed.subscribe(function(model) {
-      console.log(model);
+      //console.log(model);
       var fromElm = document.getElementById('from-elm');
       fromElm.innerHTML = "Ups: " + model.ups + " Downs: " + model.downs;
     });

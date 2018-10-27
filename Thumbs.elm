@@ -1,5 +1,6 @@
 port module Thumbs exposing (..)
 
+import Browser
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (..)
@@ -14,15 +15,9 @@ type alias Model =
     , comments : List String
     }
 
-
-initialModel : Model
-initialModel =
-    { ups = 0
-    , downs = 0
-    , comments = []
-    }
-
-
+init: () -> (Model, Cmd Msg)
+init _ = 
+    (Model 0 0 [],Cmd.none)
 
 -- UPDATE
 
@@ -54,9 +49,9 @@ view : Model -> Html Msg
 view model =
     div []
         [ button [ onClick Down ]
-            [ text ((toString model.downs) ++ " 👎") ]
+            [ text ((String.fromInt model.downs) ++ " 👎") ]
         , button [ onClick Up ]
-            [ text ((toString model.ups) ++ " 👍") ]
+            [ text ((String.fromInt model.ups) ++ " 👍") ]
         , commentList model.comments
         ]
 
@@ -90,10 +85,10 @@ subscriptions model =
     newComment NewComment
 
 
-main : Program Never Model Msg
+
 main =
-    Html.program
-        { init = ( initialModel, Cmd.none )
+    Browser.element
+        { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
